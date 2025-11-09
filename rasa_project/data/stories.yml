@@ -1,0 +1,13 @@
+version: "3.4"
+stories:
+- story: happy path
+  steps:
+  - intent: greet
+  - action: utter_greet
+
+- story: policy status
+  steps:
+  - intent: ask_policy_status
+  - action: utter_ask_policy_id
+  - action: action_check_policy_status
+  - action: utter_policy_status
