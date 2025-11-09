@@ -1,0 +1,18 @@
+version: "3.4"
+intents:
+  - greet
+  - goodbye
+  - ask_policy_status
+
+responses:
+  utter_greet:
+  - text: "Hello! How can I help you today?"
+
+  utter_ask_policy_id:
+  - text: "Please provide your policy number."
+
+  utter_policy_status:
+  - text: "Your policy is currently: {policy_status}."
+
+actions:
+  - action_check_policy_status

@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    depends_on:
+      - rasa
+    volumes:
+      - ./frontend:/app/frontend:ro
+
+  rasa:
+    image: rasa/rasa:3.6.0
+    ports:
+      - "5005:5005"
+    volumes:
+      - ./rasa_project:/app
+    command: "run --enable-api --cors '*'"
+
+  action_server:
+    image: rasa/rasa-sdk:3.6.0
+    ports:
+      - "5055:5055"
+    volumes:
+      - ./rasa_project/actions.py:/app/actions.py:ro
