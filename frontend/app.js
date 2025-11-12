@@ -1,37 +1,50 @@
-const baseUrl = '/'; // change if backend is hosted elsewhere
+const recordBtn = document.getElementById('record');
+const status = document.getElementById('status');
+const reply = document.getElementById('reply');
 
-const messagesDiv = document.getElementById('messages');
-const textInput = document.getElementById('textInput');
-const sendBtn = document.getElementById('sendBtn');
+let mediaRecorder;
+let audioChunks = [];
 
-function appendMessage(who, text) {
-  const el = document.createElement('div');
-  el.innerHTML = `<b>${who}:</b> ${text}`;
-  messagesDiv.appendChild(el);
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+async function init() {
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  mediaRecorder = new MediaRecorder(stream);
+
+  mediaRecorder.addEventListener("dataavailable", event => {
+    audioChunks.push(event.data);
+  });
+
+  mediaRecorder.addEventListener("stop", async () => {
+    const audioBlob = new Blob(audioChunks, { type: 'audio/wav' });
+    audioChunks = [];
+    status.textContent = "Uploading...";
+    const fd = new FormData();
+    fd.append("file", audioBlob, "speech.wav");
+    // optional: send lang hint for Tamil 'ta' or 'en'
+    const resp = await fetch("http://localhost:8000/transcribe", { method: "POST", body: fd });
+    if (!resp.ok) {
+      status.textContent = "Error from server";
+      return;
+    }
+    const blob = await resp.blob();
+    const url = URL.createObjectURL(blob);
+    reply.src = url;
+    reply.play();
+    status.textContent = "Done";
+  });
 }
 
-sendBtn.addEventListener('click', async () => {
-  const message = textInput.value.trim();
-  if (!message) return;
-  appendMessage('You', message);
-  textInput.value = '';
-
-  try {
-    const res = await fetch('/rasa', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message })
-    });
-    const data = await res.json();
-    if (data.status === 'ok' && Array.isArray(data.rasa)) {
-      data.rasa.forEach(m => appendMessage('Bot', m.text || JSON.stringify(m)));
-    } else if (data.status === 'error') {
-      appendMessage('Bot', 'Error: ' + data.error);
-    } else {
-      appendMessage('Bot', JSON.stringify(data));
-    }
-  } catch (e) {
-    appendMessage('Bot', 'Network error: ' + e.message);
+recordBtn.addEventListener("mousedown", () => {
+  if (!mediaRecorder) { status.textContent = "No mic"; return; }
+  audioChunks = [];
+  mediaRecorder.start();
+  status.textContent = "Recording...";
+});
+recordBtn.addEventListener("mouseup", () => {
+  if (mediaRecorder && mediaRecorder.state !== "inactive") {
+    mediaRecorder.stop();
+    status.textContent = "Processing...";
   }
 });
+
+// init on load
+init().catch(e => { status.textContent = "Mic init failed: " + e; });

@@ -3,20 +3,30 @@ Provides `synthesize` which returns wav bytes for given text.
 This is a fallback stub; replace with Coqui TTS or other engines later.
 """
 
-import io
+import os, uuid
+from pathlib import Path
 
-# Small silent WAV header for placeholder (1-second silence, 16kHz, 16-bit mono)
-# NOTE: For real TTS, call Coqui or similar and return real audio bytes.
+def tts_synthesize(text, out_dir, lang_hint="en"):
+    out_dir = Path(out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out_path = out_dir / f"{uuid.uuid4().hex}.wav"
+    # Simple fallback: use Coqui TTS if available, else use OS TTS
+    try:
+        from TTS.api import TTS
+        # choose a model that supports english/tamil if available, else default
+        tts = TTS("tts_models/en/vctk/vits")  # example; you can pick a better one
+        tts.tts_to_file(text=text, file_path=str(out_path))
+        return str(out_path)
+    except Exception as e:
+        # fallback: save silence or return pre-recorded phrase
+        # for now, create a short WAV using python-soundfile with generated speech
+        from gtts import gTTS
+        t = gTTS(text=text, lang="en")
+        tmpfile = str(out_path.with_suffix(".mp3"))
+        t.save(tmpfile)
+        # convert mp3->wav using pydub
+        from pydub import AudioSegment
+        AudioSegment.from_mp3(tmpfile).export(out_path, format="wav")
+        os.remove(tmpfile)
+        return str(out_path)
 
-def synthesize(text: str) -> bytes:
-    if not text:
-        return b''
-    # Return a tiny placeholder WAV file header + empty frames
-    # This is NOT a real TTS; replace it with actual TTS output.
-    wav_silence = (
-        b'RIFF\x24\x00\x00\x00WAVEfmt '  # header
-        b'\x10\x00\x00\x00\x01\x00\x01\x00'  # PCM, mono
-        b'\x80<\x00\x00\x00\x7d\x00\x02\x00\x10\x00'  # sample rate 16000
-        b'data\x00\x00\x00\x00'
-    )
-    return wav_silence

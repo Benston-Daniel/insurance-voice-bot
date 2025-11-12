@@ -1,0 +1,28 @@
+[
+  {
+    "policy_id": "POL-2024-001",
+    "customer_name": "Rajesh Kumar",
+    "status": "active",
+    "coverage": [
+      "Hospitalization",
+      "Ambulance",
+      "Doctor consultation"
+    ],
+    "sum_insured": 500000,
+    "premium": 12000,
+    "expiry_date": "2025-12-31"
+  },
+  {
+    "policy_id": "POL-2024-002",
+    "customer_name": "Priya Sharma",
+    "status": "active",
+    "coverage": [
+      "Hospitalization",
+      "Critical illness",
+      "Maternity"
+    ],
+    "sum_insured": 750000,
+    "premium": 18000,
+    "expiry_date": "2026-06-30"
+  }
+]

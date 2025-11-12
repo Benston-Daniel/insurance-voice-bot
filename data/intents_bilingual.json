@@ -1,0 +1,44 @@
+{
+  "ask_claim_status": [
+    "What is the status of my claim?",
+    "Can you check my claim status?",
+    "Is my claim approved?",
+    "என் கோரிக்கையின் நிலை என்ன?",
+    "என் கோரிக்கை ஞ்சரம் ஆனதா?"
+  ],
+  "ask_policy_status": [
+    "What is my policy status?",
+    "Is my policy active?",
+    "Can you check my policy?",
+    "என் பாலிசி நிலை என்ன?",
+    "என் பாலிசி செல்லுபடியாகுமா?"
+  ],
+  "file_claim": [
+    "I want to file a claim",
+    "How do I submit a claim?",
+    "I need to make a claim",
+    "நான் ஒரு கோரிக்கை தாக்கல் செய்ய விரும்புகிறேன்",
+    "கோரிக்கை தாக்கல் செய்வது எப்படி?"
+  ],
+  "ask_coverage": [
+    "What does my policy cover?",
+    "What is covered under my insurance?",
+    "என் பாலிசி என்ன உள்ளடக்கம்?",
+    "எந்த விஷயங்கள் உள்ளடக்கம் செய்யப்பட்டுள்ளன?"
+  ],
+  "greet": [
+    "Hello",
+    "Hi",
+    "Hey",
+    "Good morning",
+    "வணக்கம்",
+    "ஹாய்"
+  ],
+  "goodbye": [
+    "Goodbye",
+    "Bye",
+    "See you later",
+    "விடைபெறுகிறேன்",
+    "சௌக்கியமாக இருங்கள்"
+  ]
+}

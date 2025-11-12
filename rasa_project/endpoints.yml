@@ -1,4 +1,0 @@
-action_endpoint:
-  url: "http://action_server:5055/webhook"
-
-# You can configure the tracker store, event broker, etc. here.
