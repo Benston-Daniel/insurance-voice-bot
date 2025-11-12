@@ -1,20 +1,81 @@
+# Virtual Environments
+rasa/
+backend/botenv/
+venv/
+env/
+ENV/
+.venv/
+
+# Rasa-specific
+rasa_project/models/
+rasa_project/.rasa/
+.rasa/
+
+#models
+.models/
+models/
+*.gguf
+# Tests
+tests/
+
+# Temporary and Log Files
+tmp/
+logs/
+*.log
+
+# Audio Files
+*.wav
+*.m4a
+*.mp3
+*.ogg
+*.flac
+wav_test.m4a
+
 # Python
 __pycache__/
 *.py[cod]
-*.env
-.venv/
-venv/
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.pytest_cache/
+.coverage
+htmlcov/
 
-# Editor
+# IDEs and Editors
 .vscode/
 .idea/
-
-# OS
+*.swp
+*.swo
+*~
 .DS_Store
-Thumbs.db
+.env
+.env.local
+.env.*.local
 
 # Docker
-*.log
+.dockerignore
 
-# Rasa artifacts
-models/
+# Node (if frontend gets npm packages)
+node_modules/
+package-lock.json
+yarn.lock
+
+# OS
+Thumbs.db
+.DS_Store

@@ -1,0 +1,18 @@
+[
+  {
+    "claim_id": "CLM-2024-001",
+    "policy_id": "POL-2024-001",
+    "status": "approved",
+    "amount": 45000,
+    "filed_date": "2024-10-15",
+    "approved_date": "2024-11-05"
+  },
+  {
+    "claim_id": "CLM-2024-002",
+    "policy_id": "POL-2024-002",
+    "status": "under_review",
+    "amount": 120000,
+    "filed_date": "2024-11-08",
+    "expected_decision_date": "2024-11-15"
+  }
+]

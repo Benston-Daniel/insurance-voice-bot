@@ -4,16 +4,21 @@ and returns a transcribed string. It's a lightweight stub so you can
 plug in Whisper or any other ASR engine later.
 """
 
-import io
+import whisper
 
-def transcribe(audio_bytes: bytes) -> str:
-    """Transcribe audio bytes to text.
+import os
 
-    Currently returns a placeholder string. Replace with Whisper or
-    other ASR call.
-    """
-    # TODO: integrate Whisper or external ASR here
-    if not audio_bytes:
-        return ""
-    # naïve placeholder (in real usage, decode audio and pass to ASR)
-    return "[transcribed text placeholder]"
+# Add ffmpeg path explicitly
+os.environ["PATH"] += os.pathsep + r"C:/Users/Benzten/AppData/Local/Microsoft/WinGet/Packages/Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-8.0-full_build/bin"
+
+# load model once
+_model = whisper.load_model("tiny")  # switch to "medium" or "base" depending on specs
+
+def transcribe_audio(path, lang="auto"):
+    # whisper returns dict
+    # set language='ta' for Tamil if you want to force language
+    opts = {}
+    if lang and lang != "auto":
+        opts['language'] = lang
+    res = _model.transcribe(path, **opts)
+    return res.get("text","").strip()
