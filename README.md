@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 # insurance-voice-bot
 AI Insurance multi lingual Voice Assistance using RASA NLU
 =======
@@ -7,90 +8,197 @@ AI Insurance multi lingual Voice Assistance using RASA NLU
 =======
 # Insurance Voice Bot (Bilingual NLU+LLM)
 >>>>>>> 8f9c065 (chore: migrate from Rasa; scaffold lightweight NLU/LLM architecture, add nlu_engine, llm_runner, backend, data, scripts)
+=======
+# **InsuranceAI Voice Bot**
+>>>>>>> f5a8b88 (Made major changes in the architecture, used gemma model, developed frontend and a simple socket based realtime audio transcription.)
 
-A lightweight, bilingual (Tamil+English) **insurance voice agent** built with:
-- **NLU Engine:** SentenceTransformers embeddings for intent classification
-- **LLM Support:** Local LLMs via llama.cpp (CPU) or Transformers (GPU)
-- **Backend:** FastAPI with ASR (Whisper) and TTS (Coqui/fallback)
-- **No Rasa:** Custom, lightweight NLU+LLM orchestration
+AI-powered insurance assistant that supports **Tamil + English**, understands **voice or text**, retrieves answers from real **policy documents** (RAG), and responds using a local **GGUF LLM**.
 
-## 🎯 Features
+This project uses:
 
-- ✅ **Bilingual:** Tamil and English (mixed queries supported)
-- ✅ **Voice I/O:** Automatic speech recognition (ASR) + text-to-speech (TTS)
-- ✅ **Lightweight:** No heavy frameworks (Rasa removed); embeddings + local LLM
-- ✅ **Intent Classification:** SentenceTransformers multilingual embeddings
-- ✅ **Flexible LLM:** Mock, llama.cpp (CPU), or Transformers (GPU)
-- ✅ **Insurance Domain:** Pre-configured for claim/policy queries
-- ✅ **API-First:** REST endpoints for text and voice queries
+* **Whisper** for speech-to-text
+* **BM25 RAG** over chunked policy PDFs
+* **Gemma 2B Tamil GGUF** for answer generation
+* **WebSocket + Browser UI** for real-time chat
 
-## 📁 Project Structure
+---
+
+## ** Quick Start (Run in 30 seconds)**
+
+```bash
+# 1. Activate virtual environment (Windows)
+.\botenv\Scripts\Activate.ps1
+
+# 2. Start backend
+python backend/src/main_server.py
+
+# 3. Open frontend
+# Simply open   frontend/index.html   in any browser
+```
+
+That's it — speak, type, and get policy-grounded answers.
+
+---
+
+## ** Installation & Setup**
+
+### **1. Clone the repository**
+
+```bash
+git clone https://github.com/your-username/insurance-voice-bot.git
+cd insurance-voice-bot
+```
+
+### **2. Create & activate virtual environment**
+
+```bash
+python -m venv botenv
+.\botenv\Scripts\Activate.ps1   # Windows
+# OR
+source botenv/bin/activate      # Linux/macOS
+```
+
+### **3. Install dependencies**
+
+```bash
+pip install --upgrade pip
+pip install -r backend/requirements.txt
+```
+
+### **4. Install ffmpeg (required for Whisper + audio decoding)**
+
+* **Windows**: Download from [https://ffmpeg.org](https://ffmpeg.org) → add `/bin` to PATH
+* **Ubuntu**:
+
+  ```bash
+  sudo apt install ffmpeg
+  ```
+
+---
+
+## ** Download the LLM model (GGUF)**
+
+Place model inside `models/`:
+
+```python
+from llama_cpp import Llama
+
+llm = Llama.from_pretrained(
+    repo_id="abhinand/gemma-2b-it-tamil-v0.1-alpha-GGUF",
+    filename="gemma-2b-it-tamil-v0.1-alpha.Q4_K_M.gguf",
+)
+```
+
+After download, ensure:
+
+```
+models/gemma-2b-it-tamil-v0.1-alpha.Q4_K_M.gguf
+```
+
+---
+
+## ** One-Time Setup: Extract Policy Knowledge Base**
+
+Run this once if `data/policies_chunks.jsonl` is missing:
+
+```bash
+python backend/src/extract_policies.py
+```
+
+This converts the policy PDFs into searchable chunks for RAG.
+
+---
+
+## **▶️ Run the Project**
+
+### **Backend**
+
+```bash
+python backend/src/main_server.py
+```
+
+This loads:
+
+* Whisper ASR
+* BM25 index
+* Gemma 2B GGUF LLM
+* WebSocket server at `ws://localhost:8765`
+
+### **Frontend**
+
+Just open:
+
+```
+frontend/index.html
+```
+
+The page provides:
+
+* Chat interface
+* Mic recording
+* AI responses + optional spoken output
+
+---
+
+## ** Directory Overview**
 
 ```
 insurance-voice-bot/
-├─ nlu_engine/                    # Intent classifier + NLU
-│  ├─ __init__.py
-│  └─ intent_classifier.py        # SentenceTransformers-based classifier
-├─ llm_runner/                    # LLM runners (CPU/GPU)
-│  ├─ __init__.py
-│  └─ llm_interface.py            # LlamaCpp, Transformers, Mock runners
-├─ backend/
-│  ├─ app/
-│  │  ├─ main.py                  # FastAPI server
-│  │  ├─ orchestrator.py          # Insurance agent (NLU+LLM)
-│  │  ├─ asr.py                   # Whisper wrapper
-│  │  ├─ tts.py                   # Coqui TTS wrapper
-│  │  └─ utils.py
-│  ├─ Dockerfile
-│  └─ requirements.txt
-├─ data/
-│  ├─ intents_bilingual.json      # Intent examples (Tamil+English)
-│  ├─ mock_policies.json          # Sample policies
-│  └─ mock_claims.json            # Sample claims
-├─ models/                         # Place downloaded LLMs here
-│  └─ README.md                   # Model download + setup guide
-├─ scripts/
-│  ├─ setup_venv.ps1              # Windows setup
-│  └─ setup_venv.sh               # Linux/Mac setup
-├─ frontend/
-│  ├─ index.html
-│  └─ app.js
-├─ docker-compose.yml
-├─ README.md
-├─ .gitignore
-└─ backups/
-   └─ cleanup_log.md              # Migration log
+│
+├── backend/
+│   ├── src/
+│   │   ├── main_server.py        # WebSocket server (ASR + RAG + LLM)
+│   │   ├── retreive_respond.py   # RAG agent (BM25 + LLM generation)
+│   │   ├── extract_policies.py   # PDF → text chunk extractor
+│   │   ├── index_bm25.py         # BM25 builder
+│   │   ├── lang_detect.py        # Tamil/English detector
+│   │   └── llm.py                # LLM loading helpers
+│   └── requirements.txt
+│
+├── data/
+│   ├── policies_chunks.jsonl     # Chunked knowledge base
+│   ├── bm25_index.pkl            # Cached BM25 index
+│   └── intents, mocks, etc.
+│
+├── models/
+│   └── gemma-2b-it-tamil…gguf    # Local LLM (download manually)
+│
+├── frontend/
+│   └── index.html                # Chat UI
+│
+├── policies/                     # Original PDF policies
+└── README.md
 ```
 
-## 🚀 Quick Start
+---
 
-### Prerequisites
-- Python 3.10+
-- (Optional) NVIDIA GPU for LLM acceleration
+## ** Troubleshooting**
 
-### Step 1: Setup Virtual Environment
+Common errors and solutions are documented in:
 
-**Windows (PowerShell):**
-```powershell
-.\scripts\setup_venv.ps1
+```
+IA.md
 ```
 
-**Linux/Mac (Bash):**
-```bash
-chmod +x scripts/setup_venv.sh
-./scripts/setup_venv.sh
-```
+Topics include:
 
-### Step 2: Download Models (Optional)
+* ffmpeg decoding issues
+* Whisper model slow / missing
+* GGUF model not loading
+* BM25 index errors
+* Token overflow / context window errors
 
-See [`models/README.md`](models/README.md) for step-by-step instructions.
+---
 
-### Step 3: Run the Backend
+## ** What This Project Demonstrates**
 
-```bash
-python backend/app/main.py
-```
+* End-to-end LangChain-style RAG **without LangChain**
+* Real-time voice conversation using browser WebSocket
+* Local offline LLM (GGUF) answering strictly from policy data
+* Tamil + English automatic language support
+* Minimal, clean, easy-to-run architecture
 
+<<<<<<< HEAD
 Server starts at `http://localhost:8000`
 
 ## 📡 API Endpoints
@@ -145,3 +253,6 @@ Notes and next steps:
 - **Benefits:** No heavy Rasa server, easier to embed in edge devices
 - See `backups/cleanup_log.md` for migration details.
 >>>>>>> 8f9c065 (chore: migrate from Rasa; scaffold lightweight NLU/LLM architecture, add nlu_engine, llm_runner, backend, data, scripts)
+=======
+---
+>>>>>>> f5a8b88 (Made major changes in the architecture, used gemma model, developed frontend and a simple socket based realtime audio transcription.)
