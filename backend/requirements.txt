@@ -1,11 +1,43 @@
 fastapi==0.95.2
 uvicorn[standard]==0.22.0
-requests==2.31.0
+requests==0.31.0
 python-multipart==0.0.6
 pydantic==1.10.12
 aiofiles==23.1.0
-openai-whisper  # OpenAI whisper pip package
+
+# ASR / audio
+openai-whisper
+torch
+torchaudio
 pydub
 soundfile
-coqui-tts  # optional, or adapt to your TTS choice
+pymupdf
+pdfplumber
+pdf2image
+pillow
+pytesseract
+
+# TTS
+coqui-tts
+
+# Embeddings / RAG
+sentence-transformers
+chromadb
+
+# LLMs
+llama-cpp-python
+transformers
+sentencepiece
+
+# Retrieval
+rank-bm25
+nltk
+numpy
+
+# Utilities
+pyjwt
+pypdf
 python-dotenv
+tqdm
+regex
+
