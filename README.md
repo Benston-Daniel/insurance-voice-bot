@@ -179,6 +179,7 @@ Topics include:
 ---
 
 ## ** What This Project Demonstrates**
+<<<<<<< HEAD
 
 * End-to-end LangChain-style RAG **without LangChain**
 * Real-time voice conversation using browser WebSocket
@@ -443,5 +444,15 @@ Notes and next steps:
 - See `backups/cleanup_log.md` for migration details.
 >>>>>>> 8f9c065 (chore: migrate from Rasa; scaffold lightweight NLU/LLM architecture, add nlu_engine, llm_runner, backend, data, scripts)
 =======
+---
+>>>>>>> f5a8b88 (Made major changes in the architecture, used gemma model, developed frontend and a simple socket based realtime audio transcription.)
+=======
+
+* End-to-end LangChain-style RAG **without LangChain**
+* Real-time voice conversation using browser WebSocket
+* Local offline LLM (GGUF) answering strictly from policy data
+* Tamil + English automatic language support
+* Minimal, clean, easy-to-run architecture
+
 ---
 >>>>>>> f5a8b88 (Made major changes in the architecture, used gemma model, developed frontend and a simple socket based realtime audio transcription.)
