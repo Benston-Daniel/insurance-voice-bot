@@ -1,9 +1,9 @@
 fastapi==0.95.2
-uvicorn[standard]==0.22.0
-requests==0.31.0
-python-multipart==0.0.6
-pydantic==1.10.12
-aiofiles==23.1.0
+uvicorn[standard]
+requests
+python-multipart
+pydantic
+aiofile
 
 # ASR / audio
 openai-whisper
@@ -18,7 +18,7 @@ pillow
 pytesseract
 
 # TTS
-coqui-tts
+# coqui-tts
 
 # Embeddings / RAG
 sentence-transformers

@@ -43,7 +43,7 @@ nltk.download('punkt', quiet=True)
 nltk.download('punkt_tab', quiet=True)
 
 from lang_detect import detect_language
-N_GPU_LAYERS = -1
+N_GPU_LAYERS = 0
 
 try:
     from llama_cpp import Llama
