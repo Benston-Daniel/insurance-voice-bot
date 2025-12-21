@@ -11,7 +11,7 @@ This project uses:
 
 ---
 
-## ** Quick Start (Run in 30 seconds)**
+## **Quick Start (Run in 30 seconds)**
 
 ```bash
 # 1. Activate virtual environment (Windows)
@@ -24,11 +24,11 @@ python backend/src/main_server.py
 # Simply open   frontend/index.html   in any browser
 ```
 
-That's it — speak, type, and get policy-grounded answers.
+That's it speak, type, and get policy-grounded answers.
 
 ---
 
-## ** Installation & Setup**
+## **Installation & Setup**
 
 ### **1. Clone the repository**
 
@@ -64,7 +64,7 @@ pip install -r backend/requirements.txt
 
 ---
 
-## ** Download the LLM model (GGUF)**
+## **Download the LLM model (GGUF)**
 
 Place model inside `models/`:
 
@@ -85,7 +85,7 @@ models/gemma-2b-it-tamil-v0.1-alpha.Q4_K_M.gguf
 
 ---
 
-## ** One-Time Setup: Extract Policy Knowledge Base**
+## **One-Time Setup: Extract Policy Knowledge Base**
 
 Run this once if `data/policies_chunks.jsonl` is missing:
 
@@ -97,7 +97,7 @@ This converts the policy PDFs into searchable chunks for RAG.
 
 ---
 
-## **▶️ Run the Project**
+## **Run the Project**
 
 ### **Backend**
 
@@ -128,7 +128,7 @@ The page provides:
 
 ---
 
-## ** Directory Overview**
+## **Directory Overview**
 
 ```
 insurance-voice-bot/
@@ -171,7 +171,7 @@ Topics include:
 
 ---
 
-## ** What This Project Demonstrates**
+## **What This Project Demonstrates**
 * End-to-end LangChain-style RAG **without LangChain**
 * Real-time voice conversation using browser WebSocket
 * Local offline LLM (GGUF) answering strictly from policy data
